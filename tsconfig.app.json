@@ -27,7 +27,8 @@
     "noImplicitAny": false,
     "strictFunctionTypes": false,
     "strictPropertyInitialization": false,
-    "noImplicitThis": false
+    "noImplicitThis": false,
+    "allowSyntheticDefaultImports": true
   },
   "include": ["src"]
 }
