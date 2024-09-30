@@ -1,11 +1,11 @@
-import './App.css'
+import './App.css';
 
 function App() {
   return (
-    <>
-      <h1>Byte Grad ToDo</h1>
-    </>
-  )
+    <div className="my-super-class bg-amber-500 text-3xl font-bold underline hover:bg-pink-400 md:text-amber-700">
+      Tests
+    </div>
+  );
 }
 
-export default App
+export default App;
