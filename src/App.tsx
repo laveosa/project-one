@@ -50,13 +50,13 @@ function App() {
   }
 
   function onRemoveTodo(todoId: number) {
-    setTodoList(
-      todoList
-        .filter((item: ITodo) => item.id !== todoId)
-        .map((item: ITodo, idx) => {
-          return { ...item, id: idx + 1 };
-        })
-    );
+    const freshTodoList: ITodo[] = todoList
+      .filter((item: ITodo) => item.id !== todoId)
+      .map((item: ITodo, idx) => {
+        return { ...item, id: idx + 1 };
+      });
+
+    setTodoList(freshTodoList);
   }
 
   function onLogIn() {}
