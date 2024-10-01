@@ -1,4 +1,4 @@
-const Header = () => {
+const Header = ({ todoList }) => {
   return (
     <header className="col-[1/3] row-[1/2] flex items-center justify-between border-b border-black/[0.04] bg-[#fbf5ed] px-[20px]">
       <img
@@ -6,7 +6,10 @@ const Header = () => {
         alt="logo"
       />
       <p>
-        <span className="font-bold">0</span> / 0 todos completed
+        <span className="font-bold">
+          {todoList ? todoList.filter((item) => item.isCompleted).length : 0}
+        </span>{' '}
+        / 0 todos completed
       </p>
     </header>
   );
