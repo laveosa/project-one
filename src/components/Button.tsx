@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ButtonTypeEnum } from '../consts/ButtonTypeEnum.ts';
+import { ButtonTypeEnum } from '../consts/enums/ButtonTypeEnum.ts';
 
 export interface ButtonModel {
   children: React.ReactNode;

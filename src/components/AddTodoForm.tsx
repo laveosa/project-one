@@ -1,9 +1,14 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
 import Button from './Button.tsx';
-import { ButtonTypeEnum } from '../consts/ButtonTypeEnum.ts';
+import { ButtonTypeEnum } from '../consts/enums/ButtonTypeEnum.ts';
+import {
+  ITodoListContext,
+  TodoListContext,
+} from '../context/TodoListContextProvider.tsx';
 
-function AddTodoForm({ onAddNewTodo }) {
+function AddTodoForm() {
+  const { onAddNewTodo } = useContext<ITodoListContext>(TodoListContext);
   const [newTodo, setNewTodo] = useState('');
 
   function onAddToList(event) {

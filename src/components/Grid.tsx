@@ -1,7 +1,12 @@
+import { useContext } from 'react';
+
 import GridItem from './GridItem.tsx';
 import { ITodo } from '../consts/interfaces/ITodo.ts';
+import { TodoListContext } from '../context/TodoListContextProvider.tsx';
 
-function Grid({ todoList, onToggleTodo, onRemoveTodo }) {
+function Grid() {
+  const { todoList } = useContext(TodoListContext);
+
   return (
     <>
       {todoList.length === 0 && (
@@ -15,11 +20,7 @@ function Grid({ todoList, onToggleTodo, onRemoveTodo }) {
         <div>
           {todoList.map((todo: ITodo) => (
             <div key={todo.id}>
-              <GridItem
-                {...todo}
-                onToggleTodo={onToggleTodo}
-                onRemoveTodo={onRemoveTodo}
-              />
+              <GridItem {...todo} />
             </div>
           ))}
         </div>

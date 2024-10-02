@@ -1,7 +1,13 @@
-const Header = ({ todoList }) => {
-  const completedTodosAmount = todoList
-    ? todoList.filter((item) => item.isCompleted).length
-    : 0;
+import { useContext } from 'react';
+
+import {
+  ITodoListContext,
+  TodoListContext,
+} from '../context/TodoListContextProvider.tsx';
+
+const Header = () => {
+  const { completedTodosAmount, todosAmount } =
+    useContext<ITodoListContext>(TodoListContext);
 
   return (
     <header className="col-[1/3] row-[1/2] flex items-center justify-between border-b border-black/[0.04] bg-[#fbf5ed] px-[20px]">
@@ -11,7 +17,7 @@ const Header = ({ todoList }) => {
       />
       <p>
         <span className="font-bold">{completedTodosAmount}</span> /{' '}
-        {todoList.length} todos completed
+        {todosAmount} todos completed
       </p>
     </header>
   );
