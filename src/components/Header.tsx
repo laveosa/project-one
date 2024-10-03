@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import Logo from '../assets/images/favicon.png';
 
 import {
   ITodoListContext,
@@ -11,10 +12,9 @@ const Header = () => {
 
   return (
     <header className="col-[1/3] row-[1/2] flex items-center justify-between border-b border-black/[0.04] bg-[#fbf5ed] px-[20px]">
-      <img
-        src="https://bytegrad.com/course-assets/react-nextjs/dots.png"
-        alt="logo"
-      />
+      <div className="w-[40px]">
+        <img src={Logo as string} alt="logo" className="w-full" />
+      </div>
       <p>
         <span className="font-bold">{completedTodosAmount}</span> /{' '}
         {todosAmount} todos completed
