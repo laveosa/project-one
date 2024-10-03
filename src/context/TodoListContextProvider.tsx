@@ -1,6 +1,7 @@
-import { createContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
+
 import { ITodo } from '../consts/interfaces/ITodo.ts';
-import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
+import { AuthContext } from './AuthContextProvider.tsx';
 
 const initialTodos: ITodo[] = [
   {
@@ -34,7 +35,7 @@ export interface ITodoListContext {
 export const TodoListContext = createContext<ITodoListContext>(null);
 
 function TodoListContextProvider({ children }) {
-  const { isAuthenticated } = useKindeAuth();
+  const { isAuthenticated } = useContext(AuthContext);
   const [todoList, setTodoList] = useState<ITodo[]>(initialTodos);
   const todosAmount = todoList.length;
   const completedTodosAmount = todoList.filter(
@@ -47,7 +48,7 @@ function TodoListContextProvider({ children }) {
       text,
     };
 
-    if (todoList.length >= 3) {
+    if (todoList.length >= 3 && !isAuthenticated) {
       window.alert('Log in to add more than 3 todos');
       return;
     }
