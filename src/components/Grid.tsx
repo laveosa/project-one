@@ -10,14 +10,14 @@ function Grid() {
   return (
     <>
       {todoList.length === 0 && (
-        <div className="flex p-30 items-center justify-center">
+        <div className="flex p-30 items-center justify-center bg-gray-50">
           <h1 className="font-bold text-[40px] text-gray-300">
             NO TODOS TO DISPLAY
           </h1>
         </div>
       )}
       {todoList?.length > 0 && (
-        <div className="overflow-y-auto">
+        <div className="overflow-y-auto bg-gray-50">
           {todoList.map((todo: ITodo) => (
             <div key={todo.id}>
               <GridItem {...todo} />
