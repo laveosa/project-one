@@ -2,6 +2,8 @@ import { createContext, useContext, useState } from 'react';
 
 import { ITodo } from '../consts/interfaces/ITodo.ts';
 import { AuthContext } from './AuthContextProvider.tsx';
+import LocalStorageService from '../util/localStorageService.ts';
+import { LocalStorageKeyEnum } from '../consts/enums/LocalStorageKeyEnum.ts';
 
 export interface ITodoListContext {
   todoList: ITodo[];
@@ -16,10 +18,12 @@ export const TodoListContext = createContext<ITodoListContext>(null);
 
 function TodoListContextProvider({ children }) {
   const { isAuthenticated } = useContext(AuthContext);
-  const [todoList, setTodoList] = useState<ITodo[]>([]);
+  const todoListInitialState: ITodo[] =
+    LocalStorageService.getItem<ITodo[]>(LocalStorageKeyEnum.TODO) || [];
+  const [todoList, setTodoList] = useState<ITodo[]>(todoListInitialState);
   const todosAmount = todoList.length;
   const completedTodosAmount = todoList.filter(
-    (todo) => todo.isCompleted
+    (todo: ITodo) => todo.isCompleted
   ).length;
 
   function onAddNewTodo(text: string) {
@@ -33,28 +37,34 @@ function TodoListContextProvider({ children }) {
       return;
     }
 
-    setTodoList([...todoList, newTodo]);
+    const todos: ITodo[] = [...todoList, newTodo];
+    setTodoList(todos);
+    LocalStorageService.setItem(LocalStorageKeyEnum.TODO, todos);
   }
 
   function onToggleTodo(todoId: number) {
     setTodoList((todoList: ITodo[]) => {
-      return todoList.map((item: ITodo) => {
+      const todos: ITodo[] = todoList.map((item: ITodo) => {
         if (item.id === todoId) {
           item.isCompleted = !item.isCompleted;
         }
         return item;
       });
+
+      LocalStorageService.setItem(LocalStorageKeyEnum.TODO, todos);
+      return todos;
     });
   }
 
   function onRemoveTodo(todoId: number) {
-    const freshTodoList: ITodo[] = todoList
+    const todos: ITodo[] = todoList
       .filter((item: ITodo) => item.id !== todoId)
       .map((item: ITodo, idx) => {
         return { ...item, id: idx + 1 };
       });
 
-    setTodoList(freshTodoList);
+    LocalStorageService.setItem(LocalStorageKeyEnum.TODO, todos);
+    setTodoList(todos);
   }
 
   return (
