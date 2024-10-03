@@ -17,7 +17,7 @@ function Grid() {
         </div>
       )}
       {todoList?.length > 0 && (
-        <div>
+        <div className="overflow-y-auto">
           {todoList.map((todo: ITodo) => (
             <div key={todo.id}>
               <GridItem {...todo} />
