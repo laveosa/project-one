@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from 'react';
 
 import { ITodo } from '../consts/interfaces/ITodo.ts';
 import { AuthContext } from './AuthContextProvider.tsx';
-import LocalStorageService from '../util/localStorageService.ts';
+import LocalStorageService from '../util/services/localStorageService.ts';
 import { LocalStorageKeyEnum } from '../consts/enums/LocalStorageKeyEnum.ts';
 
 export interface ITodoListContext {
