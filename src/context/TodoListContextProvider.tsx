@@ -3,26 +3,6 @@ import { createContext, useContext, useState } from 'react';
 import { ITodo } from '../consts/interfaces/ITodo.ts';
 import { AuthContext } from './AuthContextProvider.tsx';
 
-const initialTodos: ITodo[] = [
-  {
-    id: 1,
-    text: 'buy groceries',
-  },
-  {
-    id: 2,
-    text: 'walk the dog',
-  },
-  {
-    id: 3,
-    text: 'do laundry',
-    isCompleted: true,
-  },
-  {
-    id: 4,
-    text: 'exercise',
-  },
-];
-
 export interface ITodoListContext {
   todoList: ITodo[];
   todosAmount: number;
@@ -36,7 +16,7 @@ export const TodoListContext = createContext<ITodoListContext>(null);
 
 function TodoListContextProvider({ children }) {
   const { isAuthenticated } = useContext(AuthContext);
-  const [todoList, setTodoList] = useState<ITodo[]>(initialTodos);
+  const [todoList, setTodoList] = useState<ITodo[]>([]);
   const todosAmount = todoList.length;
   const completedTodosAmount = todoList.filter(
     (todo) => todo.isCompleted
