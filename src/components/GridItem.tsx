@@ -15,12 +15,13 @@ function GridItem({ id, text, isCompleted }) {
     event.stopPropagation();
 
     // TODO fix remove grid item animation
-    // const element = document.getElementById(`GridItem_${id}`);
-    // animate(element, { x: -300, opacity: 0 }, { duration: 0.2 }).then(() => {
-    //   onRemoveTodo(id);
-    // });
+    let element = document.getElementById(`GridItem_${id}`);
+    animate(element, { x: -300, opacity: 0 }, { duration: 0.2 }).then(() => {
+      element = null;
+      onRemoveTodo(id);
+    });
 
-    onRemoveTodo(id);
+    // onRemoveTodo(id);
   }
 
   return (

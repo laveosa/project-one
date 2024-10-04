@@ -37,7 +37,9 @@ function TodoListContextProvider({ children }) {
       return;
     }
 
-    const todos: ITodo[] = [newTodo, ...todoList];
+    const todos: ITodo[] = [newTodo, ...todoList].map((item: ITodo, idx) => {
+      return { ...item, id: idx + 1 };
+    });
     setTodoList(todos);
     LocalStorageService.setItem(LocalStorageKeyEnum.TODO, todos);
   }
@@ -57,11 +59,7 @@ function TodoListContextProvider({ children }) {
   }
 
   function onRemoveTodo(todoId: number) {
-    const todos: ITodo[] = todoList
-      .filter((item: ITodo) => item.id !== todoId)
-      .map((item: ITodo, idx) => {
-        return { ...item, id: idx + 1 };
-      });
+    const todos: ITodo[] = todoList.filter((item: ITodo) => item.id !== todoId);
 
     LocalStorageService.setItem(LocalStorageKeyEnum.TODO, todos);
     setTodoList(todos);
