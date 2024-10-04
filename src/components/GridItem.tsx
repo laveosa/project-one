@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useAnimate } from 'framer-motion';
 
 import {
   ITodoListContext,
@@ -9,14 +9,23 @@ import {
 function GridItem({ id, text, isCompleted }) {
   const { onToggleTodo, onRemoveTodo } =
     useContext<ITodoListContext>(TodoListContext);
+  const [scope, animate] = useAnimate();
 
   function onRemove(event) {
     event.stopPropagation();
+
+    // TODO fix remove grid item animation
+    // const element = document.getElementById(`GridItem_${id}`);
+    // animate(element, { x: -300, opacity: 0 }, { duration: 0.2 }).then(() => {
+    //   onRemoveTodo(id);
+    // });
+
     onRemoveTodo(id);
   }
 
   return (
     <motion.div
+      ref={scope}
       id={`GridItem_${id}`}
       className={
         'bg-white flex h-[50px] cursor-pointer items-center justify-between border-b border-black/[8%] px-8 text-[14px] hover:bg-[#fffcf9]'
