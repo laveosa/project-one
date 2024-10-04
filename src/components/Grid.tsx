@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 
 import GridItem from './GridItem.tsx';
 import { ITodo } from '../consts/interfaces/ITodo.ts';
@@ -18,9 +18,10 @@ function Grid() {
           <motion.h1
             className="font-bold text-[40px] text-gray-300"
             initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, amount: 0.5 }}
-            transition={{ duration: 0.3, delay: 0.1 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              duration: 0.5,
+            }}
           >
             NO TODOS TO DISPLAY
           </motion.h1>
@@ -28,30 +29,25 @@ function Grid() {
       )}
       {todoList?.length > 0 && (
         <motion.div
-          className="overflow-y-auto bg-gray-50"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 0.3, delay: 0.1 }}
+          className="overflow-y-auto overflow-x-hidden bg-gray-50"
           variants={{
-            hidden: { opacity: 0, y: 30 },
-            visible: {
-              opacity: 1,
-              y: 0,
-              transition: { staggerChildren: 0.1 },
-            },
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.05 } },
+          }}
+          initial="hidden"
+          animate="visible"
+          transition={{
+            duration: 0.5,
+            delay: 0.2,
+            type: 'spring',
           }}
         >
           {todoList.map((todo: ITodo) => (
-            <motion.div
-              key={todo.id}
-              variants={{
-                hidden: { opacity: 0, y: 30 },
-                visible: { opacity: 1, y: 0 },
-              }}
-            >
-              <GridItem {...todo} />
-            </motion.div>
+            <div key={todo.id}>
+              <AnimatePresence>
+                <GridItem {...todo} />
+              </AnimatePresence>
+            </div>
           ))}
         </motion.div>
       )}

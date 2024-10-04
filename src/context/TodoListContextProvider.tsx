@@ -37,7 +37,7 @@ function TodoListContextProvider({ children }) {
       return;
     }
 
-    const todos: ITodo[] = [...todoList, newTodo];
+    const todos: ITodo[] = [newTodo, ...todoList];
     setTodoList(todos);
     LocalStorageService.setItem(LocalStorageKeyEnum.TODO, todos);
   }

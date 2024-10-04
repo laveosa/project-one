@@ -1,7 +1,9 @@
+import { useContext } from 'react';
+import { motion } from 'framer-motion';
+
+import { AuthContext, IAuthContext } from '../context/AuthContextProvider.tsx';
 import AddTodoForm from './AddTodoForm.tsx';
 import Button from './Button.tsx';
-import { useContext } from 'react';
-import { AuthContext, IAuthContext } from '../context/AuthContextProvider.tsx';
 
 function Sidebar() {
   const {
@@ -14,13 +16,31 @@ function Sidebar() {
   } = useContext<IAuthContext>(AuthContext);
 
   return (
-    <section className="col-[2/3] row-[2/3] flex flex-col border-l border-black/[0.04] bg-[#fffcf9] px-[25px] pb-[28px] pt-[18px]">
-      <AddTodoForm />
+    <motion.section
+      className="col-[2/3] row-[2/3] flex flex-col border-l border-black/[0.04] bg-[#fffcf9] px-[25px] pb-[28px] pt-[18px]"
+      initial={{ opacity: 0, x: 60 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{
+        duration: 0.5,
+        delay: 0.2,
+        type: 'spring',
+      }}
+    >
+      <div>
+        <AddTodoForm />
+      </div>
       {isLoading && (
         <div className="my-auto space-y-2">
-          <p className="text-center text-gray-300 text-4xl mb-2 font-bold">
+          <motion.p
+            className="text-center text-gray-300 text-4xl mb-2 font-bold"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              duration: 0.5,
+            }}
+          >
             loading...
-          </p>
+          </motion.p>
         </div>
       )}
       {!isLoading && (
@@ -44,7 +64,7 @@ function Sidebar() {
           )}
         </div>
       )}
-    </section>
+    </motion.section>
   );
 }
 
