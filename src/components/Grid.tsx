@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import GridItem from './GridItem.tsx';
-import { ITodo } from '../consts/interfaces/ITodo.ts';
+import { TodoModel } from '../consts/models/TodoModel.ts';
 import {
   ITodoListContext,
   TodoListContext,
@@ -42,7 +42,7 @@ function Grid() {
             type: 'spring',
           }}
         >
-          {todoList.map((todo: ITodo) => (
+          {todoList.map((todo: TodoModel) => (
             <div key={todo.id}>
               <AnimatePresence>
                 <GridItem {...todo} />

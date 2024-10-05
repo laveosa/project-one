@@ -1,13 +1,13 @@
 import { createContext, useContext, useState } from 'react';
 
-import { ITodo } from '../consts/interfaces/ITodo.ts';
+import { TodoModel } from '../consts/models/TodoModel.ts';
 import { AuthContext } from './AuthContextProvider.tsx';
 import LocalStorageService from '../util/services/localStorageService.ts';
 import { LocalStorageKeyEnum } from '../consts/enums/LocalStorageKeyEnum.ts';
 import { idGenerator } from '../util/helpers/appHelper.ts';
 
 export interface ITodoListContext {
-  todoList: ITodo[];
+  todoList: TodoModel[];
   todosAmount: number;
   completedTodosAmount: number;
   addNewTodo: (value: string) => void;
@@ -19,12 +19,12 @@ export const TodoListContext = createContext<ITodoListContext>(null);
 
 function TodoListContextProvider({ children }) {
   const { isAuthenticated } = useContext(AuthContext);
-  const todoListInitialState: ITodo[] =
-    LocalStorageService.getItem<ITodo[]>(LocalStorageKeyEnum.TODO) || [];
-  const [todoList, setTodoList] = useState<ITodo[]>(todoListInitialState);
+  const todoListInitialState: TodoModel[] =
+    LocalStorageService.getItem<TodoModel[]>(LocalStorageKeyEnum.TODO) || [];
+  const [todoList, setTodoList] = useState<TodoModel[]>(todoListInitialState);
   const todosAmount = todoList.length;
   const completedTodosAmount = todoList.filter(
-    (todo: ITodo) => todo.isCompleted
+    (todo: TodoModel) => todo.isCompleted
   ).length;
 
   function addNewTodo(text: string): void {
@@ -33,7 +33,7 @@ function TodoListContextProvider({ children }) {
       return;
     }
 
-    const todos: ITodo[] = [
+    const todos: TodoModel[] = [
       {
         id: idGenerator(),
         text,
@@ -45,8 +45,8 @@ function TodoListContextProvider({ children }) {
   }
 
   function toggleTodo(todoId: string): void {
-    setTodoList((todoList: ITodo[]) => {
-      const todos: ITodo[] = todoList.map((item: ITodo) => {
+    setTodoList((todoList: TodoModel[]) => {
+      const todos: TodoModel[] = todoList.map((item: TodoModel) => {
         if (item.id === todoId) {
           item.isCompleted = !item.isCompleted;
         }
@@ -59,7 +59,9 @@ function TodoListContextProvider({ children }) {
   }
 
   function removeTodo(todoId: string): void {
-    const todos: ITodo[] = todoList.filter((item: ITodo) => item.id !== todoId);
+    const todos: TodoModel[] = todoList.filter(
+      (item: TodoModel) => item.id !== todoId
+    );
     setTodoList(todos);
     LocalStorageService.setItem(LocalStorageKeyEnum.TODO, todos);
   }

@@ -4,12 +4,12 @@ import { motion } from 'framer-motion';
 import { AuthContext, IAuthContext } from '../context/AuthContextProvider.tsx';
 import AddTodoForm from './AddTodoForm.tsx';
 import Button from './Button.tsx';
+import UserInfo from './UserInfo.tsx';
 
 function Sidebar() {
   const {
     isLoading,
     isAuthenticated,
-    user,
     loginHandler,
     logoutHandler,
     registerHandler,
@@ -47,9 +47,7 @@ function Sidebar() {
         <div className="mt-auto space-y-2">
           {isAuthenticated && (
             <div>
-              <p className="text-gray-500 text-sm mb-2">
-                Name: <span className="font-bold">{user?.given_name}</span>
-              </p>
+              <UserInfo />
               <Button onClick={logoutHandler}>Log out</Button>
             </div>
           )}
