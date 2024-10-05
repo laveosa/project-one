@@ -4,14 +4,15 @@ import { ITodo } from '../consts/interfaces/ITodo.ts';
 import { AuthContext } from './AuthContextProvider.tsx';
 import LocalStorageService from '../util/services/localStorageService.ts';
 import { LocalStorageKeyEnum } from '../consts/enums/LocalStorageKeyEnum.ts';
+import { idGenerator } from '../util/helpers/appHelper.ts';
 
 export interface ITodoListContext {
   todoList: ITodo[];
   todosAmount: number;
   completedTodosAmount: number;
-  onAddNewTodo: (value: string) => void;
-  onToggleTodo: (todoId: number) => void;
-  onRemoveTodo: (todoId: number) => void;
+  addNewTodo: (value: string) => void;
+  toggleTodo: (todoId: string) => void;
+  removeTodo: (todoId: string) => void;
 }
 
 export const TodoListContext = createContext<ITodoListContext>(null);
@@ -26,25 +27,24 @@ function TodoListContextProvider({ children }) {
     (todo: ITodo) => todo.isCompleted
   ).length;
 
-  function onAddNewTodo(text: string) {
-    const newTodo: ITodo = {
-      id: todoList ? todoList.length + 1 : 0,
-      text,
-    };
-
+  function addNewTodo(text: string): void {
     if (todoList.length >= 3 && !isAuthenticated) {
       window.alert('Log in to add more than 3 todos');
       return;
     }
 
-    const todos: ITodo[] = [newTodo, ...todoList].map((item: ITodo, idx) => {
-      return { ...item, id: idx + 1 };
-    });
+    const todos: ITodo[] = [
+      {
+        id: idGenerator(),
+        text,
+      },
+      ...todoList,
+    ];
     setTodoList(todos);
     LocalStorageService.setItem(LocalStorageKeyEnum.TODO, todos);
   }
 
-  function onToggleTodo(todoId: number) {
+  function toggleTodo(todoId: string): void {
     setTodoList((todoList: ITodo[]) => {
       const todos: ITodo[] = todoList.map((item: ITodo) => {
         if (item.id === todoId) {
@@ -58,11 +58,10 @@ function TodoListContextProvider({ children }) {
     });
   }
 
-  function onRemoveTodo(todoId: number) {
+  function removeTodo(todoId: string): void {
     const todos: ITodo[] = todoList.filter((item: ITodo) => item.id !== todoId);
-
-    LocalStorageService.setItem(LocalStorageKeyEnum.TODO, todos);
     setTodoList(todos);
+    LocalStorageService.setItem(LocalStorageKeyEnum.TODO, todos);
   }
 
   return (
@@ -71,9 +70,9 @@ function TodoListContextProvider({ children }) {
         todoList,
         todosAmount,
         completedTodosAmount,
-        onAddNewTodo,
-        onToggleTodo,
-        onRemoveTodo,
+        addNewTodo,
+        toggleTodo,
+        removeTodo,
       }}
     >
       {children}

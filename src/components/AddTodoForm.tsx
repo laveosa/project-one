@@ -11,17 +11,17 @@ import useFocus from '../util/hooks/useFocus.ts';
 function AddTodoForm() {
   const [inputRef, setInputFocus] = useFocus();
   const [newTodo, setNewTodo] = useState('');
-  const { onAddNewTodo } = useContext<ITodoListContext>(TodoListContext);
+  const { addNewTodo } = useContext<ITodoListContext>(TodoListContext);
 
-  function onEnter(event) {
+  function onEnter(event): void {
     if (event.key !== 'Enter') return;
-    onAddNewTodo(newTodo);
+    addNewTodo(newTodo);
     setNewTodo('');
   }
 
-  function onAddToList(event) {
+  function onAddToList(event): void {
     event.preventDefault();
-    onAddNewTodo(newTodo);
+    addNewTodo(newTodo);
     setNewTodo('');
     setInputFocus();
   }

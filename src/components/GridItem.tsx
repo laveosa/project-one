@@ -7,21 +7,16 @@ import {
 } from '../context/TodoListContextProvider.tsx';
 
 function GridItem({ id, text, isCompleted }) {
-  const { onToggleTodo, onRemoveTodo } =
+  const { toggleTodo, removeTodo } =
     useContext<ITodoListContext>(TodoListContext);
   const [scope, animate] = useAnimate();
 
-  function onRemove(event) {
+  function onRemove(event): void {
     event.stopPropagation();
-
-    // TODO fix remove grid item animation
-    let element = document.getElementById(`GridItem_${id}`);
+    const element = document.getElementById(`GridItem_${id}`);
     animate(element, { x: -300, opacity: 0 }, { duration: 0.2 }).then(() => {
-      element = null;
-      onRemoveTodo(id);
+      removeTodo(id);
     });
-
-    // onRemoveTodo(id);
   }
 
   return (
@@ -36,7 +31,7 @@ function GridItem({ id, text, isCompleted }) {
         visible: { opacity: 1, x: 0, y: 0, margin: 0 },
       }}
       exit={{ x: -300, opacity: 0 }}
-      onClick={() => onToggleTodo(id)}
+      onClick={() => toggleTodo(id)}
     >
       <span className={isCompleted ? 'text-[#ccc] line-through' : ''}>
         {text}

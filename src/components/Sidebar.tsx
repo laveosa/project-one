@@ -48,10 +48,7 @@ function Sidebar() {
           {isAuthenticated && (
             <div>
               <p className="text-gray-500 text-sm mb-2">
-                Welcome:{' '}
-                <span className="font-bold">
-                  {user?.email ? user?.email : user?.given_name}
-                </span>
+                Name: <span className="font-bold">{user?.given_name}</span>
               </p>
               <Button onClick={logoutHandler}>Log out</Button>
             </div>
